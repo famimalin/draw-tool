@@ -155,6 +155,7 @@ const NumberInputModal = (props: NumberInputModalProps) => {
             }
 
             setTimeout(() => {
+                inputRef.current?.focus();
                 inputRef.current?.select();
             }, 0);
         }
