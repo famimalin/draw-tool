@@ -3,17 +3,23 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@reduxjs/toolkit": "^2.2.3",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
-    "@types/jest": "^27.5.2",
-    "@types/node": "^16.18.96",
-    "@types/react": "^18.3.1",
-    "@types/react-dom": "^18.3.0",
+    "detect-it": "^4.0.1",
     "react": "^18.3.1",
+    "react-confetti-explosion": "^2.1.2",
     "react-dom": "^18.3.1",
-    "react-scripts": "5.0.1",
+    "react-icons": "^5.2.0",
+    "react-modal": "^3.16.1",
+    "react-redux": "^9.1.2",
+    "react-scripts": "^5.0.1",
+    "react-use": "^17.5.0",
+    "sass": "^1.76.0",
+    "styled-components": "^6.1.9",
     "typescript": "^4.9.5",
+    "uuid": "^9.0.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -39,5 +45,15 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@types/jest": "^29.5.12",
+    "@types/node": "^20.12.8",
+    "@types/react": "^18.3.1",
+    "@types/react-dom": "^18.3.0",
+    "@types/react-modal": "^3.16.3",
+    "@types/uuid": "^9.0.8",
+    "symbol-observable": "^4.0.0"
   }
 }
