@@ -24,6 +24,11 @@ const Content = styled.div`
     border-radius: 5px;
     background-color: #fff;
     box-shadow: 0 20px 60px 0 rgba(0, 0, 0, 0.16);
+
+    ${GlobalStyle.getPhoneMedia(css`
+        width: 300px;
+        padding: 20px;
+    `)}
 `;
 const Tilte = styled.div`
     color: ${Colors.Dark_500};
@@ -31,7 +36,7 @@ const Tilte = styled.div`
     font-weight: bold;
 
     ${GlobalStyle.getPhoneMedia(css`
-        font-size: 18px;
+        font-size: 20px;
     `)}
 `;
 const Desc = styled.div`
@@ -39,9 +44,18 @@ const Desc = styled.div`
     margin: 16px 0 0 0;
     color: ${Colors.Dark_400};
     font-size: 16px;
+
+    ${GlobalStyle.getPhoneMedia(css`
+        margin: 8px 0 0 0;
+        font-size: 14px;
+    `)}
 `;
 const FormWrapper = styled(ResetForm)`
     margin: 16px 0 0 0;
+
+    ${GlobalStyle.getPhoneMedia(css`
+        margin: 8px 0 0 0;
+    `)}
 `;
 const FomrInput = styled(ResetInput)`
     width: 100px;
@@ -56,6 +70,12 @@ const FomrInput = styled(ResetInput)`
     &:focus {
         border: 1px solid ${Colors.Blue_400};
     }
+
+    ${GlobalStyle.getPhoneMedia(css`
+        width: 70px;
+        height: 36px;
+        font-size: 16px;
+    `)}
 `;
 const ButtonGroup = styled.div`
     display: flex;
@@ -63,6 +83,11 @@ const ButtonGroup = styled.div`
     padding: 30px 0 0 0;
     gap: 16px;
     justify-content: flex-end;
+
+    ${GlobalStyle.getPhoneMedia(css`
+        padding: 20px 0 0 0;
+        gap: 10px;
+    `)}
 `;
 const ConfirmButton = styled(GlobalStyle.BaseButton)`
     width: 80px;
@@ -73,8 +98,9 @@ const ConfirmButton = styled(GlobalStyle.BaseButton)`
     background-color: ${Colors.Blue};
 
     ${GlobalStyle.getPhoneMedia(css`
-        padding: 0 30px;
-        font-size: 16px;
+        width: 70px;
+        height: 32px;
+        font-size: 14px;
     `)}
 `;
 const CancelButton = styled(GlobalStyle.BaseButton)`
@@ -86,8 +112,9 @@ const CancelButton = styled(GlobalStyle.BaseButton)`
     background-color: ${Colors.Dark_200};
 
     ${GlobalStyle.getPhoneMedia(css`
-        padding: 0 30px;
-        font-size: 16px;
+        width: 70px;
+        height: 32px;
+        font-size: 14px;
     `)}
 `;
 

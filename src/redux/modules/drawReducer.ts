@@ -27,15 +27,12 @@ interface DrawState {
 
 // 如果 local storage 內有暫存資料的話，把她加進來
 const getInitState = () => {
-    const drawUserList = LocalStorageUtil.getItem<string[]>(CACHE_DRAWUSERLIST_KEY, []);
-    const drawUserMap = LocalStorageUtil.getItem<{ [id: string]: DrawUserInfo }>(
+    const drawUserList = LocalStorageUtil.getItemObj<string[]>(CACHE_DRAWUSERLIST_KEY, []);
+    const drawUserMap = LocalStorageUtil.getItemObj<{ [id: string]: DrawUserInfo }>(
         CACHE_DRAWUSERMAP_KEY,
         {}
     );
-    const winnerUserId = LocalStorageUtil.getItem<string | undefined>(
-        CACHE_WINNERUSERID_KEY,
-        undefined
-    );
+    const winnerUserId = LocalStorageUtil.getItemJSON(CACHE_WINNERUSERID_KEY) || undefined;
 
     return {
         drawUserList: drawUserList,

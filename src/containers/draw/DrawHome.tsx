@@ -4,7 +4,7 @@
     Author: Gray
     CreateTime: 2024 / 05 / 03
 =====================================*/
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { Colors, GlobalStyle } from "../../stylecomponents";
 import DrawUserList from "../../components/draw/DrawUserList";
 import { useMemo, useState } from "react";
@@ -17,6 +17,7 @@ import { IoPlaySharp, IoPauseSharp, IoClose } from "react-icons/io5";
 import DrawResult from "../../components/draw/DrawResult";
 import { useDispatch } from "react-redux";
 import { DrawActions } from "../../redux/modules/drawReducer";
+import { IoPeopleSharp } from "react-icons/io5";
 
 /*--------------------------
     Styled
@@ -33,27 +34,136 @@ const Content = styled.div`
 `;
 const ControlWrapper = styled.div`
     min-width: 0;
-    padding: 0 40px 0 0;
+    padding: 0 20px 0 0;
     flex: 1;
+
+    ${GlobalStyle.getPhoneMedia(css`
+        padding: 0;
+    `)}
 `;
 const ListWrapper = styled.div`
     width: 300px;
     min-width: 300px;
+
+    ${GlobalStyle.getPhoneMedia(css`
+        width: 0;
+        min-width: 0;
+    `)}
+`;
+const ListOverlay = styled.div<{ $isShow?: boolean }>`
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    transition: all 0.3s;
+    z-index: 1;
+
+    ${GlobalStyle.getPhoneMedia(css`
+        display: block;
+    `)}
+
+    ${(props) => {
+        if (props.$isShow) {
+            return css`
+                visibility: visible;
+                opacity: 1;
+            `;
+        } else {
+            return css`
+                visibility: hidden;
+                opacity: 0;
+            `;
+        }
+    }}
+`;
+const ListContent = styled.div<{ $isShow?: boolean }>`
+    position: fixed;
+    top: 70px;
+    width: 300px;
+    z-index: 2;
+
+    ${GlobalStyle.getPhoneMedia(css`
+        top: 0;
+        right: 0;
+        height: 100%;
+        border-left: 1px solid #eee;
+        background-color: #fff;
+        box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s;
+    `)}
+
+    ${(props) => {
+        if (props.$isShow) {
+            return css`
+                ${GlobalStyle.getPhoneMedia(css`
+                    transform: none;
+                `)}
+            `;
+        } else {
+            return css`
+                ${GlobalStyle.getPhoneMedia(css`
+                    transform: translateX(300px);
+                `)}
+            `;
+        }
+    }}
+`;
+const ListToggle = styled.div`
+    display: none;
+    position: absolute;
+    top: 40px;
+    left: -40px;
+    width: 40px;
+    height: 50px;
+    border: 1px solid #eee;
+    border-right: none;
+    border-radius: 5px 0 0 5px;
+    color: ${Colors.Dark_500};
+    font-size: 24px;
+    background-color: #fff;
+    box-shadow: -2px 2px 0px 0px rgba(0, 0, 0, 0.08);
+    cursor: pointer;
+
+    ${GlobalStyle.getPhoneMedia(css`
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    `)}
 `;
 const Title = styled.h1`
     margin: 0;
     color: ${Colors.Dark_500};
     font-size: 36px;
+
+    ${GlobalStyle.getPhoneMedia(css`
+        text-align: center;
+    `)}
 `;
 const SubTitle = styled.h4`
     margin: 20px 0 0 0;
     color: ${Colors.Dark_500};
     font-size: 20px;
+
+    ${GlobalStyle.getPhoneMedia(css`
+        text-align: center;
+    `)}
 `;
 const FormWrapper = styled(ResetForm)`
     display: flex;
     margin: 20px 0 0 0;
     align-items: center;
+
+    ${GlobalStyle.getTabletMedia(css`
+        flex-wrap: wrap;
+    `)}
+
+    ${GlobalStyle.getPhoneMedia(css`
+        justify-content: center;
+        flex-wrap: wrap;
+    `)}
 `;
 const Input = styled(ResetInput)`
     width: 80px;
@@ -67,6 +177,14 @@ const Input = styled(ResetInput)`
     &:focus {
         border: 1px solid ${Colors.Blue_400};
     }
+
+    ${GlobalStyle.getTabletMedia(css`
+        width: 70px;
+    `)}
+
+    ${GlobalStyle.getPhoneMedia(css`
+        width: 70px;
+    `)}
 `;
 const Unit = styled.div`
     margin: 0 0 0 10px;
@@ -75,7 +193,7 @@ const Unit = styled.div`
 `;
 const SubmitButton = styled(GlobalStyle.BaseButton)`
     height: 40px;
-    margin: 0 0 0 40px;
+    margin: 0 0 0 20px;
     padding: 0 20px;
     border-radius: 5px;
     color: #fff;
@@ -87,6 +205,17 @@ const CountDownWrapper = styled.div`
     margin: 0 0 0 auto;
     gap: 20px;
     align-items: center;
+
+    ${GlobalStyle.getTabletMedia(css`
+        width: 100%;
+        margin: 20px 0 0 0;
+    `)}
+
+    ${GlobalStyle.getPhoneMedia(css`
+        width: 100%;
+        margin: 20px 0 0 0;
+        justify-content: center;
+    `)}
 `;
 const CountDownButton = styled(GlobalStyle.BaseButton)`
     width: 40px;
@@ -121,6 +250,7 @@ const DrawHome = (props: DrawHomeProps) => {
     const [second, setSecond] = useState<number | "">("");
     const [startSecond, setStartSecond] = useState<number>(0);
     const [isResetCountDown, setIsResetCountDown] = useState<boolean>(false);
+    const [isOpenList, setIsOpenList] = useState<boolean>(false);
 
     const {
         time: countDownTime,
@@ -153,11 +283,16 @@ const DrawHome = (props: DrawHomeProps) => {
     };
 
     const resetCountDown = () => {
-        if (countDownTime === 0) {
-            return;
+        if (countDownTime > 0) {
+            stopCountDown();
         }
-        stopCountDown();
+
         setIsResetCountDown(true);
+        dispatch(DrawActions.clearWinnerDrawUser());
+    };
+
+    const toggleList = () => {
+        setIsOpenList((_isOpen) => !_isOpen);
     };
 
     useUpdateEffect(() => {
@@ -201,10 +336,7 @@ const DrawHome = (props: DrawHomeProps) => {
                                     <IoPlaySharp />
                                 </CountDownButton>
                             )}
-                            <CountDownButton
-                                onClick={resetCountDown}
-                                disabled={countDownTime === 0}
-                            >
+                            <CountDownButton onClick={resetCountDown}>
                                 <IoClose />
                             </CountDownButton>
                         </CountDownWrapper>
@@ -218,7 +350,13 @@ const DrawHome = (props: DrawHomeProps) => {
                     </ResultWrapper>
                 </ControlWrapper>
                 <ListWrapper>
-                    <DrawUserList />
+                    <ListOverlay $isShow={isOpenList} onClick={toggleList} />
+                    <ListContent $isShow={isOpenList}>
+                        <ListToggle onClick={toggleList}>
+                            <IoPeopleSharp />
+                        </ListToggle>
+                        <DrawUserList />
+                    </ListContent>
                 </ListWrapper>
             </Content>
         </Body>

@@ -14,7 +14,7 @@ const TopbarZindex = 1000; // topbar z軸
 const TopbarHeight = 70; // topbar 高度
 const FooterHeight = 50; // footer 高度
 const PhoneMaxWidth = 599; // 手機 最大寬度
-const TabletMaxWidth = 1023; // 平板 最大寬度
+const TabletMaxWidth = 899; // 平板 最大寬度
 const ModalDefaultZindex = 2000; // modal 預設 z軸
 
 /*--------------------------

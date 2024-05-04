@@ -37,7 +37,7 @@ const removeItem = (key: string) => {
     localStorage.removeItem(key);
 };
 
-const getItem = <T>(key: string, initialValue: T) => {
+const getItemObj = <T>(key: string, initialValue: T) => {
     const json = getItemJSON(key);
 
     if (!json) {
@@ -59,7 +59,7 @@ const LocalStorageUtil = {
     getItemJSON,
     setItem,
     removeItem,
-    getItem,
+    getItemObj,
 };
 
 export default LocalStorageUtil;

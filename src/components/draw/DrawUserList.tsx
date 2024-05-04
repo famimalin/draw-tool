@@ -4,7 +4,7 @@
     Author: Gray
     CreateTime: 2024 / 05 / 03
 =====================================*/
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import useDrawUserList from "../../hooks/draw/useDrawUserList";
 import { Colors, GlobalStyle } from "../../stylecomponents";
 import DrawUserListItem from "./DrawUserListItem";
@@ -19,9 +19,8 @@ import { DrawActions } from "../../redux/modules/drawReducer";
     Styled
 --------------------------*/
 const Content = styled.div`
-    position: fixed;
-    top: 70px;
-    width: 300px;
+    position: relative;
+    width: 100%;
 `;
 const Title = styled.h4`
     display: flex;
@@ -30,6 +29,10 @@ const Title = styled.h4`
     color: ${Colors.Dark_500};
     font-size: 20px;
     align-items: center;
+
+    ${GlobalStyle.getPhoneMedia(css`
+        padding: 0 0 0 20px;
+    `)}
 `;
 const RefreshButton = styled(GlobalStyle.BaseButton)`
     display: flex;
@@ -54,6 +57,12 @@ const List = styled.div`
     border-radius: 10px;
     overflow: auto;
     box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.08);
+
+    ${GlobalStyle.getPhoneMedia(css`
+        border: none;
+        max-height: calc(100vh - 80px);
+        box-shadow: none;
+    `)}
 `;
 
 /*--------------------------

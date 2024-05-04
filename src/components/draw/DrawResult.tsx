@@ -11,8 +11,8 @@ import DrawUserInfo from "../../types/data/draw/drawUserInfo.interface";
 import { useMemo, useRef, useState } from "react";
 import { useEffectOnce, useUnmount, useUpdateEffect } from "react-use";
 import DrawUserListItem from "./DrawUserListItem";
-import ConfettiExplosion from "react-confetti-explosion";
 import useWinnerDrawUser from "../../hooks/draw/useWinnerDrawUser";
+import ConfettiExplosion from "../animation/ConfettiExplosion";
 
 /*--------------------------
     Variables
@@ -25,7 +25,8 @@ const PendingCount = 1;
     Styled
 --------------------------*/
 const Content = styled.div`
-    width: 300px;
+    width: 100%;
+    max-width: 300px;
     height: ${ItemHeight}px;
     padding: 0 10px;
     border: 1px solid ${Colors.Dark_200};
